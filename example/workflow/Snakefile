@@ -1,3 +1,14 @@
+# -*- encoding: utf-8 -*-
+# ============================================================
+# File        : Snakefile
+# Time        : 2024/03/15
+# Author      : Xu Zhuofei
+# Version     : 0.1
+# Contact     : deepmining@foxmail.com
+# Copyright   : Copyright (c) 2024, xuzf
+# License     : GPL-3.0 license
+# ============================================================
+
 ## workflow/Snakefile
 
 # edit a configuration file in yaml or json format
