@@ -1,0 +1,134 @@
+---
+title: "ATAC-seq report"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+    
+---
+
+```{r setup, include=FALSE}
+
+pacman::p_load(ChIPseeker, ggplot2, enrichplot)
+
+
+samples <- snakemake@params$samples
+diffgroups <- snakemake@params$diffgroups
+peak_dir <- snakemake@params$peak_dir
+diffpeak_dir <- snakemake@params$diffpeak_dir
+
+
+sp1.Rdata <- paste(peak_dir, "/", samples[1], "_anno.Rdata", sep="")
+load(sp1.Rdata)
+```
+
+### Peak Calling
+Peak Calling 是指使用统计学方法计算出参考基因组上比对上的 Reads 显著富集的区域（称为 Peak），这些区域在不同的实验中表
+示不同的研究重点，在组蛋白/转录因子的 ChIPseq 和 CUT&Tag 实验中为组蛋白的修饰位点/转录因子结合位点，ATACseq 实验中为开
+放染色质区。获得 Peak 后，可对 Peak 进行后续的 Peak 序列 Motif 分析、 Peak 注释等分析，进一步挖掘感兴趣的方向。
+本次分析使用主流的 Peak Calling 软件 MACS2。MACS2 在 Call Peak 时，可以选择使用 narrow 或 broad 参数进行分析，这两个参
+数寻找 Peak 的方法略有不同，找到的 Peak 的峰形也不同，narrow 峰形较窄，broad 峰形较宽，转录因子和一些组蛋白如 H3K27ac 的
+Peak 的峰形是窄的，一些组蛋白如 H3K36me3、H3K9me3 等的 Peak 是宽的。我们默认使用 narrow 参数进行分析。
+
+所有样本 Peak 数目统计如下：
+```{r , echo=FALSE, message=F}
+peak_anno.csv <- paste(peak_dir, "/", samples, "_peak_anno.csv", sep="")
+
+names(peak_anno.csv) <- samples
+
+peak_anno.ls <- lapply(peak_anno.csv, function(file){
+    read.csv(file)
+})
+
+peak_counts <- sapply(peak_anno.ls, function(df){
+    dim(df)[1]
+})
+
+names(peak_counts) <- samples
+
+peak_count_df <- t(as.data.frame(peak_counts))
+
+colnames(peak_count_df) <- samples
+rownames(peak_count_df) <- "Sum of Peaks"
+knitr::kable(peak_count_df, caption = "The number of peaks per sample")
+```
+
+### 功能性区域 Peak 分布
+对 Peak 注释分析结果中 Peak 在所覆盖的基因的功能性区域上的分布进行统计。一般来说，大部分调控因子结合的位置在启动子区域。
+而基因间区上一般也有微弱的信号，因为基因间区在基因组上占比极大，所以检测到的 Peak 相对其他区域来说可能比较多，
+但这种 Peak 一般不是真的调控因子结合位点。该分析使用 ChIPseeker软件实现。
+
+下图为柱状图示例
+
+```{r, echo=FALSE, message=F}
+plotAnnoBar(peak_anno)
+```
+
+下图为饼图示例
+
+```{r, echo=FALSE, message=F}
+plotAnnoPie(peak_anno)
+```
+
+
+Peak 相对于TSS 数量分布比例                                                                                                                                                                                                                                 
+
+```{r, echo=FALSE, message=F}
+plotDistToTSS(peak_anno,
+                title="Distribution of transcription factor-binding loci\nrelative to TSS")
+```
+
+### Peak 注释
+
+转录因子一般结合在基因的转录起始位点附近，对其上下游基因的转录进行调控。而结合在基因外显子和内含子区域的调控因子
+则可能影响该基因的可变剪切行为。Peak 覆盖的基因及邻近位置的基因均有可能是转录因子或其他调控因子调控的靶基因，获取这些
+基因并进行注释，有助于研究目标蛋白调控的基因功能或代谢通路。我们使用 R包ChIPseeker(Yu G, Wang L, He Q 2015)的 annotatePeak
+函数注释Peak所在的基因组特征。
+
+本分析注释的功能性区域包括Promoter(启动子)、Exon(外显子)、UTR(非翻译区，有5’UTR和3’UTR)、Intron(内含子)或Distal
+Intergenic(远端基因间区)。
+
+
+```{r, echo=FALSE, message=F}
+### 显示peak注释表格
+knitr::kable(new_peak_anno_df[1:10, -c(5, 6,10,11,12,13)], caption = "peak annotation")
+```
+
+### Peak 邻近基因 GO 富集分析
+
+ Peak 邻近基因 GO 富集分析的目的是得出  Peak 邻近基因 显著富集的 GO 条目， 从而发现不同发育时期、不同细胞状态
+下可能被转录因子调控的基因功能 。对每个  Peak 邻近基因 进行 GO 注释，得到其所有的 GO 功能条目，将所有  Peak 邻近
+基因 分别从 MF（Molecular Function）、BP（Biological Process）、 CC（Cellular Component）这三个层面分配到不同的 GO 功能分类
+中，采用 R 包 clusterProfiler 计算每个 GO 分类中基因富集的显著性水平，从而筛选出  Peak 邻近基因 显著富集的 GO 分类。(pval<0.1, qval<0.1)
+
+```{r, echo=FALSE, message=F}
+
+
+if (dim(as.data.frame(all_ego))[1] > 0){
+    p <- dotplot(all_ego, split="ONTOLOGY", showCategory = 10)  + facet_grid(ONTOLOGY~., scale="free")
+    p
+}
+```
+
+###  组间差异 Peak 分析
+
+ATAC-seq 实验一般都会设计多组样本，以研究不同发育时期、不同细胞状态下的特异性染色质开放区域。通过找到样本间的差异
+Peak，可以得到某种状态下特异性染色质开放区域，进而找到特异性结合的 Motif、靶基因等，推测表观遗传是否在发育过程及疾病中
+起到一定作用，从而进行后续机制研究。分析方法为，首先将每个样本的 Peak 文件合并，然后使用 bedtools 工具对合并之后的 Peak
+文件进行处理，如果两个 Peak 有重叠区域，则合并成一个新的 Peak。计算每个样本在每个合并的新 Peak 区域上的 Read 数目，最后
+使用 DESeq2 进行差异分析，得到样本间的差异 Peak 即差异染色质开放区域。
+
+差异 Peak 计算结果:
+
+```{r, echo=FALSE, message=F}
+
+
+diff_peak_file <- paste(diffpeak_dir, "/", diffgroups[1], "_result.csv", sep ="")
+diff_peak_df <- read.csv(diff_peak_file)
+
+
+knitr::kable(diff_peak_df[1:10, ], caption = "diff peak ")
+
+```
+
+
