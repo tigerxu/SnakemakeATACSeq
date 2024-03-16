@@ -1,4 +1,4 @@
-# **Snakemake4ATACseq**
+# **Snakemake for ATACseq**
 
 A snakemake-based workflow for ATAC-seq data analysis and report
 
@@ -36,6 +36,11 @@ The workflow performs the following analysis tasks:
 ## **Usage**
 
 ###  **Some preparation**
+
+```
+$ mamba create -n atacenv1
+$ mamba install snakemake
+```
 
 
 
