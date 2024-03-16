@@ -2,7 +2,7 @@
 
 A snakemake-based workflow for ATAC-seq data analysis and report
 
-##**Author**
+## **Author**
 
 [Zhuofei Xu](https://www.researchgate.net/profile/Zhuofei-Xu-4)
 
