@@ -1,8 +1,16 @@
-# ***A snakemake-based workflow for ATAC-seq data analysis and report***
+# **Snakemake4ATACseq**
+
+A snakemake-based workflow for ATAC-seq data analysis and report
+
+##**Author**
+
+[Zhuofei Xu](https://www.researchgate.net/profile/Zhuofei-Xu-4)
 
 ## **Bookmarks**
 
 * [Backgroud](#background)
+* [Usage](#usage)
+* [Citation](#citation)
 
 
 ## **Background**
@@ -27,11 +35,7 @@ The workflow performs the following analysis tasks:
 
 ## **Usage**
 
-fastq质控
-fastq比对
-bam过滤
-callpeak      
-peak注释
-peak邻近基因功能富集
-差异peak寻找
+###  **Some preparation**
+
+
 
