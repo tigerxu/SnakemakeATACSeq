@@ -35,12 +35,58 @@ The workflow performs the following analysis tasks:
 
 ## **Usage**
 
-###  **Some preparation**
+###  **Some preparation prior to running the workflow**
 
 ```
 $ mamba create -n atacenv1
+$ mamba activate atacenv1
 $ mamba install snakemake
 ```
+
+The path and file names of the raw samples are written into the file **config/config.yaml**.
+
+```
+# the paths below need to replaced with the corresponding paths in your server
+workdir: ./result
+PE: true
+sample:
+  liver_rep1:
+    r1: /path/to/sample/files/ENCFF288CVJ.fastq.gz
+    r2: /path/to/sample/files/ENCFF888ZZV.fastq.gz
+  liver_rep2:                
+    r1: /path/to/sample/files/ENCFF883SEZ.fastq.gz
+    r2: /path/to/sample/files/ENCFF035OMK.fastq.gz
+  heart_rep1:                
+    r1: /path/to/sample/files/ENCFF279LMU.fastq.gz
+    r2: /path/to/sample/files/ENCFF820PVO.fastq.gz
+  heart_rep2:                
+    r1: /path/to/sample/files/ENCFF823XXU.fastq.gz
+    r2: /path/to/sample/files/ENCFF518FYP.fastq.gz
+
+
+## config/config.yaml
+
+bwt2_idx: /path-to-the-btw2-genome-index/mm10
+
+## config/config.yaml
+
+genome: mm
+
+
+OrgDb: org.Mm.eg.db
+txdb: TxDb.Mmusculus.UCSC.mm10.knownGene
+
+## config/config.yaml
+diffGroup:
+    lh:
+      control:
+        - liver_rep1
+        - liver_rep2
+      case:
+        - heart_rep1
+        - heart_rep2
+```
+
 
 
 
