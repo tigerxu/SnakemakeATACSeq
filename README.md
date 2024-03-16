@@ -14,5 +14,24 @@ The workflow is an all-in-one analysis and report system. Users can only provide
 * [x] Portability: It supports standard operations for software portability, configuration, installation in the computer devices by the users with analytical tasks.
 * [x] Extendability: It allows the developers to add more analysis modules into the toolkits for software update and upgradation.
 
+The workflow performs the following analysis tasks:
+
+* quality examination of raw fastq reads for each sample_r?.fq.gz file
+* quality trimming of raw reads
+* mapping reads per sample to the reference genome
+* removing duplicated reads in the bam files
+* filtering of low quality reads from the bam files
+* peak calling
+* peak annotation
+* Enrichment analysis of the genes adjacent to the peaks
+
 ## **Usage**
+
+fastq质控
+fastq比对
+bam过滤
+callpeak      
+peak注释
+peak邻近基因功能富集
+差异peak寻找
 
