@@ -46,6 +46,7 @@ The configuration files and raw data related to a test running of the workflow a
 
 The resulting report file is [ATACseq_report.html](https://github.com/tigerxu/SnakemakeATACSeq/blob/main/example/result/ATACseq_report.html) under the directory 'result'.
 
+![ATACseq](ATAC_workflow.png)
 
 ###  **Some preparation prior to running the workflow**
 
