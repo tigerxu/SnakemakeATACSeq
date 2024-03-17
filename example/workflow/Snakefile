@@ -5,7 +5,7 @@
 # Author      : Xu Zhuofei
 # Version     : 0.1
 # Contact     : deepmining@foxmail.com
-# Copyright   : Copyright (c) 2024, xuzf
+# Copyright   : Copyright (c) 2024, XUZF
 # License     : GPL-3.0 license
 # ============================================================
 
@@ -300,5 +300,3 @@ rule make_report:
         diffpeak_dir = "06diffpeak"
     script:
         "scripts/make_report.Rmd"
-
-
