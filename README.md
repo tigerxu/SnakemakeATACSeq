@@ -35,6 +35,18 @@ The workflow performs the following analysis tasks:
 
 ## **Usage**
 
+Running the commands below can get a HTML-format analysis report from the raw data of all samples.
+
+```
+$ conda activate atacenv1
+$ snakemake -c 2 -p -s workflow/Snakefile
+```
+
+The configuration files and raw data related to a test running of the workflow are deposited in this respository, as well as the final resulting report file and some intermediate processing files for a reproducible goal.
+
+The resulting report file is [ATACseq_report.html](https://github.com/tigerxu/SnakemakeATACSeq/blob/main/example/result/ATACseq_report.html) under the directory 'result'.
+
+
 ###  **Some preparation prior to running the workflow**
 
 ```
