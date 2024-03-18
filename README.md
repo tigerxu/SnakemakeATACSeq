@@ -50,6 +50,9 @@ The framework plot of the program running is shown below
 
 ![ATACseq](example/ATAC_workflow.png)
 
+![ATAC-seq](example/ATAC.png)
+
+
 ###  **Some preparation prior to running the workflow**
 
 ```
