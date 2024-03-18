@@ -48,7 +48,7 @@ The resulting report file is [ATACseq_report.html](https://github.com/tigerxu/Sn
 
 The framework plot of the program running is shown below 
 
-![ATACseq](blob:https://github.com/c44284fb-a5bc-400e-8389-fb774a1bdc3f/ATAC_workflow.png)
+![ATACseq](example/ATAC_workflow.png)
 
 ###  **Some preparation prior to running the workflow**
 
