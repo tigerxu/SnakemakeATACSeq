@@ -9,6 +9,7 @@ A snakemake-based workflow for ATAC-seq data analysis and report
 ## **Bookmarks**
 
 * [Backgroud](#background)
+* [Computer requirements](#hard)
 * [Usage](#usage)
 * [Citation](#citation)
 
@@ -33,6 +34,18 @@ The workflow performs the following analysis tasks:
 * peak annotation
 * Enrichment analysis of the genes adjacent to the peaks
 
+## **Computer requirements**
+
+Recommended requirements:
+* CPUs = 64
+* Memory = 256GB
+
+Minimum requirements:
+* CPUs = 4
+* Memory = 16GB
+
+Approximate run time for the example dataset provided in my repository using **Minimum requirements**: 1.5h for 4 samples; 1M reads per sample
+
 ## **Usage**
 
 Running the commands below can get a HTML-format analysis report from the raw data of all samples.
@@ -44,7 +57,7 @@ $ snakemake -c 2 -p -s workflow/Snakefile
 
 The configuration files and raw data related to a test running of the workflow are deposited in this respository, as well as the final resulting report file and some intermediate processing files for a reproducible goal.
 
-The resulting report file is [ATACseq_report.html](https://github.com/tigerxu/SnakemakeATACSeq/blob/main/example/result/ATACseq_report.html) under the directory 'result'.
+The resulting report file is [ATACseq_report.html](https://github.com/tigerxu/SnakemakeATACSeq/blob/main/example/result/ATACseq_report.html) under the directory **'result'**.
 
 The framework plot of the program running is shown below 
 
@@ -405,4 +418,6 @@ rule make_report:
 
 ```
 
+
+##**Citation**
 
