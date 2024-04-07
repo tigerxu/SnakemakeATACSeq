@@ -72,6 +72,21 @@ $ mamba activate atacenv1
 $ mamba install snakemake
 ```
 
+Create directory structure for a project
+```
+$ mkdir {config,data,result,workflow}
+$ mkdir workflow/{rules,envs,scripts}
+$ tree
+.
+├── config
+├── data
+├── result
+└── workflow
+    ├── envs
+    ├── rules
+    └── scripts
+```
+
 The path and file names of the raw samples are written into the file **config/config.yaml**. The other sample metadata and group assignment info are also configured in this file, as well as some preprocessed files required by running tools, like genome index needed by bowtie2, bwa, star.
 
 ```
@@ -421,3 +436,8 @@ rule make_report:
 
 ##**Citation**
 
+If you publish the workflow in my repository, please cite both the software and the appropriate tools you used
+
+* Zhuofei X, SnakemakeATACSeq, Github https://github.com/tigerxu/SnakemakeATACSeq
+* Bowtie2
+* MACS2
